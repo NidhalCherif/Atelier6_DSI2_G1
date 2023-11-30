@@ -1,9 +1,6 @@
 <?php
 ob_start();
-require_once "config/connexion.php";
-$sql = "select * from produit";
-$res = $connexion->query($sql); // res est un objet PDOstatement
-$LesProduits = $res->fetchAll(PDO::FETCH_NUM);
+
 if (isset($_GET['etat'])) {
     $etat = $_GET['etat'];
     switch ($etat) {
@@ -21,19 +18,24 @@ if (isset($_GET['etat'])) {
 ?>
 
 <h1>Liste des produits</h1>
-<table class="table">
-    <tr class="table-primary">
-        <th>Identifiant</th>
-        <th>Libellé</th>
-        <th>Prix</th>
-        <th>Quantité</th>
-        <th>En Promo</th>
-        <th colspan=3>Action</th>
-    </tr>
+<table id="example" class="table">
+    <thead>
+        <tr class="table-primary">
+            <th>Identifiant</th>
+            <th>Libellé</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>En Promo</th>
+            <th>Action</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
 
-    <?php
-    foreach ($LesProduits as $produit) {
-        echo "<tr>
+        foreach ($LesProduits as $produit) {
+            echo "<tr>
             <td>$produit[0]</td>
             <td>$produit[1]</td>
             <td>$produit[2]</td>
@@ -44,10 +46,10 @@ if (isset($_GET['etat'])) {
         <td><a href='detail_produit.php?id=$produit[0]''>Voir détail...</a></td>
 
         </tr>";
-    }
+        }
 
-    echo "</table>";
-    echo "<a href='#' class='btn btn-success bt-sm'>Ajouter un produit</a>";
+        echo "</tbody></table>";
+        echo "<a href='#' class='btn btn-success bt-sm'>Ajouter un produit</a>";
 
-    $contenu = ob_get_clean();
-    include "layout.php";
+        $contenu = ob_get_clean();
+        include "layout.php";
